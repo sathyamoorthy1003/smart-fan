@@ -1,0 +1,18 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── SMART FAN DEVICES ──
+    match /devices/{deviceId} {
+      // Any authenticated user can read and write
+      // Both ESP32 (anonymous auth) and Flutter app (anonymous auth) need access
+      allow read, write: if request.auth != null;
+    }
+
+    // ── PILL DISPENSER (existing) ──
+    match /pill_devices/{deviceId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
